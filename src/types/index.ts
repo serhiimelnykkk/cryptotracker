@@ -2,7 +2,7 @@ export interface ExchangeInfo {
   exchangeFilters: string[];
   rateLimits: RateLimit[];
   serverTime: number;
-  assets: Asset[];
+  assets: ExchangeInfoAsset[];
   symbols: Symbol[];
   timezone: string;
 }
@@ -49,7 +49,7 @@ interface Filter {
   multiplierDecimal?: string;
 }
 
-interface Asset {
+interface ExchangeInfoAsset {
   asset: string;
   marginAvailable: boolean;
   autoAssetExchange?: string;
@@ -60,4 +60,9 @@ interface RateLimit {
   intervalNum: number;
   limit: number;
   rateLimitType: string;
+}
+
+export interface Asset {
+  coin: string;
+  quantity: number;
 }

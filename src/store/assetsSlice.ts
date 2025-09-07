@@ -1,10 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-
-interface Asset {
-  coin: string;
-  quantity: number;
-}
+import type { Asset } from "../types";
 
 const initialState: Asset[] = [];
 
