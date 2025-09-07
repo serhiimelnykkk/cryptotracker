@@ -9,8 +9,15 @@ const assetsSlice = createSlice({
   initialState: initialState,
   reducers: {
     addAsset: (state, action: PayloadAction<Asset>) => {
-      state.push(action.payload);
-      console.log("added");
+      const existingItem = state.find(
+        (asset) => asset.coin === action.payload.coin
+      );
+      if (!existingItem) {
+        state.push(action.payload);
+      } else {
+        const index = state.indexOf(existingItem);
+        state[index].quantity += action.payload.quantity;
+      }
     },
     removeAsset: (state, action: PayloadAction<string>) => {
       const existingItem = state.find((asset) => asset.coin === action.payload);
