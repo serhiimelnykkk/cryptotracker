@@ -1,10 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
-import type { ExchangeInfo } from "../../types";
+import type { ExchangeInfo } from "../../../types";
 import CoinSelectorOption from "./CoinSelectorOption/CoinSelectorOption";
+import type { UseFormRegister } from "react-hook-form";
+import type { CoinFormValues } from "../CoinForm.types";
 
 const url = "https://fapi.binance.com/fapi/v1/exchangeInfo";
 
-const CoinSelector = () => {
+interface CoinSelectorProps {
+  register: UseFormRegister<CoinFormValues>;
+}
+
+const CoinSelector = ({ register }: CoinSelectorProps) => {
   const { data, isFetching } = useQuery({
     queryKey: ["coin"],
     queryFn: () =>
@@ -20,12 +26,12 @@ const CoinSelector = () => {
   });
 
   return (
-    <select disabled={isFetching}>
+    <select disabled={isFetching} {...register("coin", { required: true })}>
       <option value="" hidden>
         Select coin
       </option>
       {data.map((symbol) => (
-        <CoinSelectorOption symbol={symbol} />
+        <CoinSelectorOption key={symbol.symbol} symbol={symbol} />
       ))}
     </select>
   );

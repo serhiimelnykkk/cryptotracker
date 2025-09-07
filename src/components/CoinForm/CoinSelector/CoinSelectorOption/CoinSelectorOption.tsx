@@ -1,4 +1,4 @@
-import type { Symbol } from "../../../types";
+import type { Symbol } from "../../../../types";
 
 interface CoinSelectorOptionProps {
   symbol: Symbol;

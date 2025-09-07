@@ -1,12 +1,12 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import CoinSelector from "./components/CoinSelector/CoinSelector";
+import CoinForm from "./components/CoinForm/CoinForm";
 
 const client = new QueryClient();
 
 const App = () => {
   return (
     <QueryClientProvider client={client}>
-      <CoinSelector />
+      <CoinForm />
     </QueryClientProvider>
   );
 };
