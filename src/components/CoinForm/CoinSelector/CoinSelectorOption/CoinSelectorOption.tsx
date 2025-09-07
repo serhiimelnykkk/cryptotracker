@@ -5,7 +5,7 @@ interface CoinSelectorOptionProps {
 }
 
 const CoinSelectorOption = ({ symbol }: CoinSelectorOptionProps) => {
-  return <option value={symbol.symbol}>{symbol.baseAsset}</option>;
+  return <option value={symbol.baseAsset}>{symbol.baseAsset}</option>;
 };
 
 export default CoinSelectorOption;
