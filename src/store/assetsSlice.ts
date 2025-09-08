@@ -26,8 +26,18 @@ const assetsSlice = createSlice({
         state.splice(index, 1);
       }
     },
+    updateAssetQuantity: (state, action: PayloadAction<Asset>) => {
+      const existingItem = state.find(
+        (asset) => asset.coin === action.payload.coin
+      );
+      if (existingItem) {
+        const index = state.indexOf(existingItem);
+        state[index].quantity = action.payload.quantity;
+      }
+    },
   },
 });
 
 export const assetsReducer = assetsSlice.reducer;
-export const { addAsset, removeAsset } = assetsSlice.actions;
+export const { addAsset, removeAsset, updateAssetQuantity } =
+  assetsSlice.actions;

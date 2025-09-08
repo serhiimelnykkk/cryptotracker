@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import type { RootState } from "../../store";
-import CoinListItem from "./CoinListRow/CoinListItem";
+import CoinListRow from "./CoinListRow/CoinListItem";
 
 const CoinList = () => {
   const assets = useSelector((state: RootState) => state.assets);
@@ -8,7 +8,7 @@ const CoinList = () => {
   return (
     <div>
       {assets.map((asset) => (
-        <CoinListItem key={asset.coin} asset={asset} />
+        <CoinListRow key={asset.coin} asset={asset} />
       ))}
     </div>
   );
