@@ -2,7 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import type { Asset } from "../types";
 
-const initialState: Asset[] = [];
+const initialState: Asset[] = JSON.parse(
+  localStorage.getItem("assets") || "[]"
+);
 
 const assetsSlice = createSlice({
   name: "assets",
