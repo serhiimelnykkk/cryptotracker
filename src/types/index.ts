@@ -63,8 +63,16 @@ interface RateLimit {
 }
 
 export interface Asset {
+  id: string;
   coin: string;
+  transactions: Transaction[];
+}
+
+export interface Transaction {
+  id: string;
   quantity: number;
+  price: number;
+  type: "buy" | "sell";
 }
 
 export interface Ticker {

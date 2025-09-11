@@ -9,17 +9,12 @@ const CoinForm = () => {
   const dispatch = useDispatch();
 
   const onSubmit: SubmitHandler<CoinFormValues> = (data) => {
-    dispatch(addAsset(data));
+    dispatch(addAsset(data.coin));
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <CoinSelector register={register} />
-      <input
-        type="number"
-        placeholder="quantity"
-        {...register("quantity", { required: true, valueAsNumber: true })}
-      />
       <button type="submit">Submit</button>
     </form>
   );

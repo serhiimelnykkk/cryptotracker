@@ -1,10 +1,14 @@
 import { configureStore, isAnyOf } from "@reduxjs/toolkit";
-import { assetsReducer } from "./assetsSlice";
+import {
+  addTransaction,
+  assetsReducer,
+  addAsset,
+  removeAsset,
+} from "./assetsSlice";
 import { startAppListening, listenerMiddleware } from "./listenerMiddleware";
-import { addAsset, removeAsset, updateAssetQuantity } from "./assetsSlice";
 
 startAppListening({
-  matcher: isAnyOf(addAsset, removeAsset, updateAssetQuantity),
+  matcher: isAnyOf(addAsset, removeAsset, addTransaction),
   effect: (_, listenerApi) => {
     localStorage.setItem(
       "assets",
