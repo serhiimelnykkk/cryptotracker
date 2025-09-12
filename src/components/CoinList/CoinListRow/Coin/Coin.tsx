@@ -43,24 +43,23 @@ const Coin = ({ asset, ticker }: CoinProps) => {
 
   const currentValue = ticker ? Number(ticker.c) * assetInfo.quantity : 0;
   const profitLossAbsolute = currentValue - assetInfo.price;
-  const profitLossPercentage = profitLossAbsolute
-    ? (profitLossAbsolute / assetInfo.price) * 100
-    : 0;
+  const profitLossPercentage =
+    profitLossAbsolute !== 0 ? (profitLossAbsolute / assetInfo.price) * 100 : 0;
 
   return (
     <div>
       <p>{`Coin: ${asset.coin}`}</p>
       <p>
         {ticker &&
-          `Current price for 1 coin: ${formatCurrencyUSD(Number(ticker.c))} `}
+          `Current cost per coin: ${formatCurrencyUSD(Number(ticker.c))} `}
       </p>
-      <p>{`Quantity: ${assetInfo.quantity}`}</p>
-      <p>{`Total price: ${formatCurrencyUSD(currentValue)}`}</p>
+      <p>{`Quantity: ${
+        assetInfo.quantity ? assetInfo.quantity : "0 (Position Closed)"
+      }`}</p>
+      <p>{`Total value: ${formatCurrencyUSD(currentValue)}`}</p>
       <p>
-        {" "}
-        {`Profit/Loss: ${formatCurrencyUSD(
-          profitLossAbsolute
-        )} / ${profitLossPercentage.toFixed(2)}%`}
+        {`Profit/Loss: ${formatCurrencyUSD(profitLossAbsolute)} 
+        ${assetInfo.quantity ? `/ ${profitLossPercentage.toFixed(2)}%` : ""}`}
       </p>
       <button onClick={handleRemoveAsset}>Remove Asset</button>
       <h4>Transactions</h4>
