@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import type { RootState } from "../../store";
-import { useTickers } from "../../context/TickerContext";
+import { useTickers } from "../../context/Ticker/TickerContext";
 import { formatCurrencyUSD } from "../../utils";
 
 const AssetsSummary = () => {
@@ -19,21 +19,22 @@ const AssetsSummary = () => {
           switch (transaction.type) {
             case "buy":
               acc.quantity += transaction.quantity;
-              acc.price += transaction.price * transaction.quantity;
+              acc.cost += transaction.cost * transaction.quantity;
               break;
             case "sell":
               acc.quantity -= transaction.quantity;
-              acc.price -= transaction.price * transaction.quantity;
+              acc.cost -= transaction.cost * transaction.quantity;
               break;
           }
           return acc;
         },
-        { quantity: 0, price: 0 }
+        { quantity: 0, cost: 0 }
       );
+
       if (assetInfo.quantity > 0) {
         const currentValue =
           Number(tickers[currentStream].c) * assetInfo.quantity;
-        result.totalCost += assetInfo.price;
+        result.totalCost += assetInfo.cost;
         result.totalCurrentValue += currentValue;
       }
 

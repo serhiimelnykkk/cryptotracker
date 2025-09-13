@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
-import type { RootState } from "../store";
+import type { RootState } from "../../store";
 import { useEffect, useState, type ReactNode } from "react";
-import type { Ticker } from "../types";
+import type { Ticker } from "../../types";
 import { TickerContext } from "./TickerContext";
 
 interface WebSocketPayload {

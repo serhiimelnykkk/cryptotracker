@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import type { RootState } from "../../store";
 import CoinListRow from "./CoinListRow/CoinListRow";
-import { useTickers } from "../../context/TickerContext";
+import { useTickers } from "../../context/Ticker/TickerContext";
 
 const CoinList = () => {
   const assets = useSelector((state: RootState) => state.assets);
