@@ -31,8 +31,9 @@ const AssetsSummary = () => {
         { quantity: 0, price: 0 }
       );
       if (assetInfo.quantity > 0) {
-        const currentValue = Number(tickers[currentStream].c);
-        result.totalCost += assetInfo.price * assetInfo.quantity;
+        const currentValue =
+          Number(tickers[currentStream].c) * assetInfo.quantity;
+        result.totalCost += assetInfo.price;
         result.totalCurrentValue += currentValue;
       }
 
