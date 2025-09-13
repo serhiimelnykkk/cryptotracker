@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import type { SubmitHandler } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import type { Asset, Transaction } from "../../../../types";
+import { getAssetTotals } from "../../../../utils";
 
 interface CoinListRowFormValues {
   transaction: Transaction;
@@ -13,10 +14,27 @@ interface CoinListRowUpdateFormProps {
 }
 
 const AddTransactionForm = ({ asset }: CoinListRowUpdateFormProps) => {
-  const { register, handleSubmit } = useForm<CoinListRowFormValues>();
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm<CoinListRowFormValues>();
   const dispatch = useDispatch();
 
   const onSubmit: SubmitHandler<CoinListRowFormValues> = (data) => {
+    const assetTotals = getAssetTotals(asset);
+    if (
+      data.transaction.type === "sell" &&
+      assetTotals.quantity < data.transaction.quantity
+    ) {
+      setError("transaction.type", {
+        type: "custom",
+        message: "Can't sell more than you had.",
+      });
+      return;
+    }
+
     dispatch(
       addTransaction({
         coinId: asset.id,
@@ -40,11 +58,14 @@ const AddTransactionForm = ({ asset }: CoinListRowUpdateFormProps) => {
         type="number"
         step="any"
         placeholder="Buy price"
-        {...register("transaction.price", {
+        {...register("transaction.cost", {
           required: true,
           valueAsNumber: true,
         })}
       />
+      {errors.transaction?.type?.message && (
+        <p>{errors.transaction.type.message}</p>
+      )}
       <select {...register("transaction.type", { required: true })}>
         <option value="" hidden>
           Select type
