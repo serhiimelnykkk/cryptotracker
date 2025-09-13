@@ -71,7 +71,7 @@ export interface Asset {
 export interface Transaction {
   id: string;
   quantity: number;
-  price: number;
+  cost: number;
   type: "buy" | "sell";
 }
 

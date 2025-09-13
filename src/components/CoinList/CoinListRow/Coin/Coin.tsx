@@ -2,6 +2,7 @@ import { removeAsset, removeTransaction } from "../../../../store/assetsSlice";
 import { useDispatch } from "react-redux";
 import { formatCurrencyUSD } from "../../../../utils";
 import type { Asset, Ticker } from "../../../../types";
+import { getAssetTotals } from "../../../../utils";
 
 interface CoinProps {
   asset: Asset;
@@ -21,30 +22,14 @@ const Coin = ({ asset, ticker }: CoinProps) => {
     );
   };
 
-  const assetInfo = asset.transactions.reduce(
-    (result, current) => {
-      switch (current.type) {
-        case "buy": {
-          result.quantity += current.quantity;
-          result.price += current.price * current.quantity;
-          break;
-        }
-        case "sell": {
-          result.quantity -= current.quantity;
-          result.price -= current.price * current.quantity;
-          break;
-        }
-      }
+  const assetTotals = getAssetTotals(asset);
 
-      return result;
-    },
-    { quantity: 0, price: 0 }
-  );
-
-  const currentValue = ticker ? Number(ticker.c) * assetInfo.quantity : 0;
-  const profitLossAbsolute = currentValue - assetInfo.price;
+  const currentValue = ticker ? Number(ticker.c) * assetTotals.quantity : 0;
+  const profitLossAbsolute = currentValue - assetTotals.cost;
   const profitLossPercentage =
-    profitLossAbsolute !== 0 ? (profitLossAbsolute / assetInfo.price) * 100 : 0;
+    profitLossAbsolute !== 0
+      ? (profitLossAbsolute / assetTotals.cost) * 100
+      : 0;
 
   return (
     <div>
@@ -54,12 +39,12 @@ const Coin = ({ asset, ticker }: CoinProps) => {
           `Current cost per coin: ${formatCurrencyUSD(Number(ticker.c))} `}
       </p>
       <p>{`Quantity: ${
-        assetInfo.quantity ? assetInfo.quantity : "0 (Position Closed)"
+        assetTotals.quantity ? assetTotals.quantity : "0 (Position Closed)"
       }`}</p>
       <p>{`Total value: ${formatCurrencyUSD(currentValue)}`}</p>
       <p>
         {`Profit/Loss: ${formatCurrencyUSD(profitLossAbsolute)} 
-        ${assetInfo.quantity ? `/ ${profitLossPercentage.toFixed(2)}%` : ""}`}
+        ${assetTotals.quantity ? `/ ${profitLossPercentage.toFixed(2)}%` : ""}`}
       </p>
       <button onClick={handleRemoveAsset}>Remove Asset</button>
       <h4>Transactions</h4>
@@ -68,7 +53,7 @@ const Coin = ({ asset, ticker }: CoinProps) => {
           <div key={transaction.id}>
             <p>
               {`Transaction ${index + 1}: `} {transaction.quantity}{" "}
-              {`${formatCurrencyUSD(transaction.price)}`} {transaction.type}
+              {`${formatCurrencyUSD(transaction.cost)}`} {transaction.type}
             </p>
             <button onClick={() => handleRemoveTransaction(transaction.id)}>
               Remove Transaction
