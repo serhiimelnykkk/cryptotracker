@@ -3,6 +3,7 @@ import type { RootState } from "../../store";
 import { useTickers } from "../../context/Ticker/TickerContext";
 import { formatCurrencyUSD } from "../../utils";
 import { getAssetTotals } from "../../utils";
+import SummaryCharts from "./SummaryCharts/SummaryCharts";
 
 const AssetsSummary = () => {
   const assets = useSelector((state: RootState) => state.assets);
@@ -45,14 +46,19 @@ const AssetsSummary = () => {
   return (
     <div>
       <p>{`Total value: ${formatCurrencyUSD(totals.totalCurrentValue)}`}</p>
-      <p>{`Total Profit/Loss: ${formatCurrencyUSD(
-        profitLossAbsolute
-      )} / ${profitLossPercentage.toFixed(2)}%`}</p>
-      <p>{`Total 24h Change: ${formatCurrencyUSD(
-        total24hAgo
-      )} ( ${formatCurrencyUSD(
-        total24hChangeAbsolute
-      )} / ${total24hChangePercentage.toFixed(2)}% )`}</p>
+      <p>
+        {`Total Profit/Loss: ${formatCurrencyUSD(
+          profitLossAbsolute
+        )} / ${profitLossPercentage.toFixed(2)}%`}
+      </p>
+      <p>
+        {`Total 24h Change: ${formatCurrencyUSD(
+          total24hAgo
+        )} ( ${formatCurrencyUSD(
+          total24hChangeAbsolute
+        )} / ${total24hChangePercentage.toFixed(2)}% )`}
+      </p>
+      <SummaryCharts />
     </div>
   );
 };
